@@ -15,7 +15,10 @@ namespace API.Services
 {
     public interface IUserService
     {
-        AuthenticateResponse Login(AuthenticateRequest model);
+        AuthenticateResponse Login(AuthenticateRequest req);
+        IEnumerable<User> GetAll();
+    
+        User GetById(Guid id);
     }
 
     public class UserService : IUserService
@@ -29,9 +32,9 @@ namespace API.Services
             _appSettings = appSettings.Value;
         }
 
-        public AuthenticateResponse Login(AuthenticateRequest model)
+        public AuthenticateResponse Login(AuthenticateRequest req)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Email == model.Email);
+            var user = _context.Users.SingleOrDefault(x => x.Email == req.Email);
 
             // check if email exists
             if  (user == null)
@@ -39,7 +42,7 @@ namespace API.Services
 
             // check if password is correct
             // add password hash matching here
-            if (user.Password != model.Password)
+            if (user.Password != req.Password)
             {
                 return null;
             }
@@ -47,6 +50,16 @@ namespace API.Services
             var token = generateJwtToken(user);
 
             return new AuthenticateResponse(token);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users;
+        }
+
+        public User GetById(Guid id)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
         private string generateJwtToken(User user)

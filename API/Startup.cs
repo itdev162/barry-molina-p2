@@ -56,6 +56,7 @@ namespace API
             }
 
             // app.UseHttpsRedirection();
+            app.UseMiddleware<JwtMiddleware>();
             app.UseMvc();
         }
     }
