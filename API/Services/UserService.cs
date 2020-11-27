@@ -66,6 +66,7 @@ namespace API.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -77,6 +78,22 @@ namespace API.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+
+
+            // var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            // var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+
+            // var nbf = DateTime.UtcNow.AddSeconds(-1);
+            // var exp = DateTime.UtcNow.AddDays(7);
+            // var payload = new JwtPayload(null, "", new List<Claim>(), nbf, exp);
+
+            // var userInfo = new Dictionary<string, object>();
+            // userInfo.Add("id", user.Id.ToString());
+            // payload.Add("user", userInfo);
+
+            // var jwtToken = new JwtSecurityToken(new JwtHeader(signingCredentials), payload);
+            // var tokenHandler = new JwtSecurityTokenHandler();
+            // return tokenHandler.WriteToken(jwtToken);
         }
     }
 }
