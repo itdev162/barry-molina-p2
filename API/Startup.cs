@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using API.Helpers;
+using API.Services;
 
 namespace API
 {
@@ -32,6 +34,12 @@ namespace API
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
+            
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
