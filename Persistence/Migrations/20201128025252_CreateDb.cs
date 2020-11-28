@@ -8,6 +8,19 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Lists",
+                columns: table => new
+                {
+                    _id = table.Column<Guid>(nullable: false),
+                    User = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lists", x => x._id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -22,41 +35,22 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lists",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lists_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ListItem",
                 columns: table => new
                 {
-                    ItemId = table.Column<Guid>(nullable: false),
+                    _id = table.Column<Guid>(nullable: false),
                     Desc = table.Column<string>(nullable: false),
                     Url = table.Column<string>(nullable: true),
-                    ListId = table.Column<Guid>(nullable: false)
+                    List_id = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListItem", x => x.ItemId);
+                    table.PrimaryKey("PK_ListItem", x => x._id);
                     table.ForeignKey(
-                        name: "FK_ListItem_Lists_ListId",
-                        column: x => x.ListId,
+                        name: "FK_ListItem_Lists_List_id",
+                        column: x => x.List_id,
                         principalTable: "Lists",
-                        principalColumn: "Id",
+                        principalColumn: "_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -71,14 +65,9 @@ namespace Persistence.Migrations
                 values: new object[] { new Guid("dd93ffaa-97df-44e3-81e3-5caf8c42abc2"), "roboto@gmail.com", "Mr. Roboto", "youllneverguessthis" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ListItem_ListId",
+                name: "IX_ListItem_List_id",
                 table: "ListItem",
-                column: "ListId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lists_UserId",
-                table: "Lists",
-                column: "UserId");
+                column: "List_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -87,10 +76,10 @@ namespace Persistence.Migrations
                 name: "ListItem");
 
             migrationBuilder.DropTable(
-                name: "Lists");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Lists");
         }
     }
 }

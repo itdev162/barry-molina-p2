@@ -28,6 +28,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public IActionResult Login(AuthenticateRequest req)
         {
+            Console.WriteLine("here");
             var response = _userService.Login(req);
 
             if (response == null)

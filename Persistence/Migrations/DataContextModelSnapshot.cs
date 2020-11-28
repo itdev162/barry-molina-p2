@@ -18,17 +18,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.List", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("_id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("User");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("_id");
 
                     b.ToTable("Lists");
                 });
@@ -70,32 +68,27 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.List", b =>
                 {
-                    b.HasOne("Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.OwnsMany("Domain.ListItem", "Items", b1 =>
                         {
-                            b1.Property<Guid>("ItemId")
+                            b1.Property<Guid>("_id")
                                 .ValueGeneratedOnAdd();
 
                             b1.Property<string>("Desc")
                                 .IsRequired();
 
-                            b1.Property<Guid>("ListId");
+                            b1.Property<Guid>("List_id");
 
                             b1.Property<string>("Url");
 
-                            b1.HasKey("ItemId");
+                            b1.HasKey("_id");
 
-                            b1.HasIndex("ListId");
+                            b1.HasIndex("List_id");
 
                             b1.ToTable("ListItem");
 
                             b1.HasOne("Domain.List")
                                 .WithMany("Items")
-                                .HasForeignKey("ListId")
+                                .HasForeignKey("List_id")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

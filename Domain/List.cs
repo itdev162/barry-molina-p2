@@ -6,9 +6,9 @@ namespace Domain
 {
     public class List
     {
-        public Guid Id { get; set;}
-        [Required]
-        public User User { get; set; }
+        [Key]
+        public Guid _id { get; set;}
+        public Guid User { get; set; }
         [Required]
         public string Title { get; set; }
         public ICollection<ListItem> Items { get; set; }

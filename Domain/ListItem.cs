@@ -9,7 +9,7 @@ namespace Domain
     public class ListItem
     {
         [Key]
-        public Guid ItemId { get; set; }
+        public Guid _id { get; set; }
         [Required]
         public string Desc { get; set; }
         public string Url { get; set; }
