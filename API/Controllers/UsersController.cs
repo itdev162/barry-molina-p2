@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using API.Services;
 using API.Models;
+using Domain;
 
 namespace API.Controllers
 {
@@ -28,13 +29,26 @@ namespace API.Controllers
         [HttpPost("login")]
         public IActionResult Login(AuthenticateRequest req)
         {
-            Console.WriteLine("here");
             var response = _userService.Login(req);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
             
             return Ok(response);
+        }
+
+        [HttpPost("users")]
+        public IActionResult Register(User user)
+        {
+            try
+            {
+                var response = _userService.Register(user);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>

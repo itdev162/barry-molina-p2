@@ -16,6 +16,7 @@ namespace API.Services
     public interface IUserService
     {
         AuthenticateResponse Login(AuthenticateRequest req);
+        AuthenticateResponse Register(User req);
         IEnumerable<User> GetAll();
     
         User GetById(Guid id);
@@ -52,6 +53,30 @@ namespace API.Services
             return new AuthenticateResponse(token);
         }
 
+        public AuthenticateResponse Register(User req)
+        {
+            if (string.IsNullOrEmpty(req.Password))
+                throw new Exception("Password is required");
+            
+            if (_context.Users.Any(x => x.Email == req.Email))
+                throw new Exception("User already exists");
+
+            var user = new User
+            {
+                Name = req.Name,
+                Email = req.Email,
+                Password = req.Password
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            var token = generateJwtToken(user);
+
+            return new AuthenticateResponse(token);
+
+        }
+            
         public IEnumerable<User> GetAll()
         {
             return _context.Users;
