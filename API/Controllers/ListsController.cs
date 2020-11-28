@@ -49,7 +49,8 @@ namespace API.Controllers
             var newList = new List
             {
                 Title = list.Title,
-                User = user.Id
+                User = user.Id,
+                Items = new List<ListItem>()
             };
 
             _context.Lists.Add(newList);
