@@ -1,0 +1,50 @@
+.listBankItem {
+    position: relative;
+    /* padding: 0 30px; */
+    border: solid 1px transparent;
+    max-height: 150px;
+    max-width: fit-content;
+    overflow: hidden;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1);
+}
+
+.listBankItem::after {
+    position: absolute;
+    bottom: 0;  
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: linear-gradient(to bottom,
+       rgba(255,255,255, 0) 80px,
+       rgba(255,255,255, 1) 150px 
+    );
+    pointer-events: none; 
+    opacity: 1;
+    transition: opacity .5s;
+  }
+.listBankItem:hover {
+    cursor: pointer;
+    max-height: 800px;
+    transition: max-height .5s ease-in-out;
+}
+
+.listBankItem:hover::after {
+    opacity: 0;
+}
+
+#listBankContainer {
+    position: relative;
+}
+
+img {
+    /* position: absolute; */
+    position: fixed;
+    top: 300px;
+    right: 40%;
+    opacity: 50%;
+    transition: opacity .3s;
+}
+img:hover {
+    cursor: pointer;
+    opacity: 80%;
+}
